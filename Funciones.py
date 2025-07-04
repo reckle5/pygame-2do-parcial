@@ -59,7 +59,6 @@ def parse_csv(lista_preguntas,nombre_archivo:str) -> bool:
         return False
     
 def generar_lista_elementos(cda_elementos:int,textura:str,medidas:tuple,pos_x,pos_y,espaciado:int)-> list:
-    #creo lista con los elementos que se usan varias veces ej: los cuadros de respuesta
     lista_elementos = []
     for i in range(cda_elementos):
         elemento = generar_elemento(textura,medidas,(pos_x,pos_y))
@@ -103,7 +102,7 @@ def dibujar_datos_juego(dato:str,pantalla,pos,fuente,color):
     texto = fuente.render(dato, True, color)
     pantalla.blit(texto,pos)
 
-def iniciar_cronometro(tiempo_inicio,duracion):
+def iniciar_cronometro(tiempo_inicio:int,duracion:int) -> int:
     
     tiempo_pasado = (pygame.time.get_ticks() - tiempo_inicio) // 1000
     tiempo_restante = max(0, duracion - tiempo_pasado)
@@ -116,6 +115,7 @@ def tiempo_de_juego(cronometro,datos_juego,lista_preguntas:list,preguntas_jugada
         pregunta_actual = lista_preguntas[datos_juego["indice"]]
         return pregunta_actual
     return None
+
 def chequear_preguntas_repetidas(preguntas_impresas:list, lista_preguntas:list) -> int:
     random_indice = random.randint(0,len(lista_preguntas)-1)
    
@@ -175,14 +175,14 @@ def verificar_respuesta(datos_juego:dict,pregunta:dict,respuesta:int) -> bool:
     return retorno
 
 def verificar_racha_preguntas(datos_juego):
-    if  datos_juego["preguntas_correctas"] == 5:
+    if  datos_juego["preguntas_correctas"] == 2:
         datos_juego["vidas"] += 1
 
 
 def reiniciar_estadisticas(datos_juego:dict) -> None:
     datos_juego["puntuacion"] = 0
     datos_juego["vidas"] = CANTIDAD_VIDAS
-    datos_juego["nombre"] = None
+    datos_juego["nombre"] = ""
     datos_juego["preguntas_correctas"] = 0
 
 

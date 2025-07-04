@@ -27,18 +27,16 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
                             print("salir")
                             retorno = "salir"
         
-    
-    #Dibujar en pygame
     pantalla.blit(FONDO_MENU,(0,0))
-    for i in range(len(lista_botones)):
-        pantalla.blit(lista_botones[i]["superficie"],lista_botones[i]["rectangulo"])
+
     
+    dibujar_elementos(lista_botones,pantalla)
+
     mostrar_texto(pantalla,"PREGUNTADOS ",(100,101),FUENTE_TITULO,COLOR_NEGRO)
     mostrar_texto(pantalla,"MUSIC ",(217,155),FUENTE_TITULO,COLOR_NEGRO)
 
     mostrar_texto(pantalla,"PREGUNTADOS ",(98,98),FUENTE_TITULO2,COLOR_BLANCO)
     mostrar_texto(pantalla,"MUSIC ",(218,152),FUENTE_TITULO2,COLOR_BLANCO)
-
 
     mostrar_texto(lista_botones[0]["superficie"],"JUGAR",(80,10),FUENTE_MENU,COLOR_VIOLETA)
     mostrar_texto(lista_botones[0]["superficie"],"JUGAR",(77,10),FUENTE_MENU,COLOR_LILA)
@@ -46,13 +44,10 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
     mostrar_texto(lista_botones[1]["superficie"],"RANKINGS",(60,10),FUENTE_MENU,COLOR_VIOLETA)
     mostrar_texto(lista_botones[1]["superficie"],"RANKINGS",(57,10),FUENTE_MENU,COLOR_LILA)
 
-    
     mostrar_texto(lista_botones[2]["superficie"],"AJUSTES",(60,10),FUENTE_MENU,COLOR_VIOLETA)
     mostrar_texto(lista_botones[2]["superficie"],"AJUSTES",(57,10),FUENTE_MENU,COLOR_LILA)
 
     mostrar_texto(lista_botones[3]["superficie"],"SALIR",(80,10),FUENTE_MENU,COLOR_VIOLETA)
     mostrar_texto(lista_botones[3]["superficie"],"SALIR",(77,10),FUENTE_MENU,COLOR_LILA)
-
-
 
     return retorno

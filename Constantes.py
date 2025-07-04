@@ -7,7 +7,7 @@ FPS = 30
 #texturas
 FONDO_JUEGO = pygame.transform.scale(pygame.image.load("texturas/fondo_juego.jpg"),PANTALLA)
 FONDO_MENU = pygame.transform.scale(pygame.image.load("texturas/fondo_menu.jpg"),PANTALLA)
-FONDO_RANKING = pygame.transform.scale(pygame.image.load("texturas/ranking.jpg"),PANTALLA)
+
 
 ANCHO_PREGUNTA,ALTO_PREGUNTA = (450,230)
 PREGUNTA_X,PREGUNTA_Y = (135,130)
@@ -35,6 +35,7 @@ COLOR_ROJO = (255,0,0)
 COLOR_AZUL = (0,0,255)
 COLOR_VIOLETA = (134,23,219)
 COLOR_LILA = (200, 162, 200)
+COLOR_VERDE_CLARO = (144, 238, 144)
 
 #fuentes
 FUENTE_TEXTO = pygame.font.SysFont("CAMBRIA",28,True)

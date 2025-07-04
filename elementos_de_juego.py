@@ -11,8 +11,6 @@ lista_botones = generar_lista_elementos(4,"texturas/button_menu.png",(ANCHO_BOTO
 boton_suma = generar_elemento("texturas/boton ajustes.png",(60,60),(470,320))
 boton_resta = generar_elemento("texturas/boton ajustes.png",(60,60),(120,320))
 
-
-
 lista_elementos_de_juego = []
 
 lista_elementos_de_juego.append(cuadro_pregunta)

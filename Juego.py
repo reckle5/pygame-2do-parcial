@@ -15,12 +15,15 @@ reloj = pygame.time.Clock()
 
 estado_juego = True
 
-
 def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego):
-    
+    print(preguntas_jugadas)
+    retorno = "jugando"
     tiempo_reloj = iniciar_cronometro(datos_juego["tiempo_inicio"],CRONOMETRO)
     pregunta_actual = lista_preguntas[datos_juego["indice"]]  
-    retorno = "jugando"
+    
+    if datos_juego["vidas"] == 0:
+        preguntas_jugadas[:] = [0]
+        retorno = "game over"
 
     for evento in cola_eventos:
         #Actualizaciones
@@ -32,6 +35,11 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                 respuesta = obtener_respuesta_click(cuadros_rta,evento.pos)
                 if respuesta != None:
                     if verificar_respuesta(datos_juego,lista_preguntas[datos_juego["indice"]],respuesta):
+                        cuadros_rta[respuesta-1]["superficie"].fill(COLOR_VERDE)
+                        pantalla.blit(cuadros_rta[respuesta - 1]["superficie"], cuadros_rta[respuesta - 1]["rectangulo"])
+
+                        pygame.display.flip()  # Fuerza la actualización de pantalla
+                        pygame.time.delay(1000)
                         tiempo_reloj = iniciar_cronometro(datos_juego["tiempo_inicio"],CRONOMETRO)                   
                         print("acierto")
                     else:
@@ -41,6 +49,8 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
                     datos_juego["indice"]  = cambiar_pregunta(lista_preguntas,preguntas_jugadas,cuadro_pregunta,cuadros_rta,datos_juego)
                     pregunta_actual = lista_preguntas[datos_juego["indice"]]
                 if boton_atras["rectangulo"].collidepoint(evento.pos):
+                    preguntas_jugadas[:] = [0]
+                    reiniciar_estadisticas(datos_juego)
                     retorno = "menu"
 
     pregunta_nueva = tiempo_de_juego(tiempo_reloj,datos_juego,lista_preguntas,preguntas_jugadas,cuadro_pregunta,cuadros_rta)
@@ -48,11 +58,7 @@ def mostrar_juego(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],
     if pregunta_nueva is not None:
         pregunta_actual = pregunta_nueva
 
-    if datos_juego["vidas"] == 0:
-        retorno = "game over"
-        
                 
-    
     pantalla.blit(FONDO_JUEGO,(0,0))
     dibujar_elementos(lista_elementos_de_juego,pantalla)
     dibujar_texto_preguntas(cuadro_pregunta,cuadros_rta,pregunta_actual,FUENTE_TEXTO,COLOR_NEGRO)

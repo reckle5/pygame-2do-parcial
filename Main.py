@@ -18,12 +18,10 @@ pantalla = pygame.display.set_mode(PANTALLA)
 
 reloj = pygame.time.Clock()
 estado_juego = True
-estado_mouse = False
-estado_pregunta = False
 ventana_actual= "menu" 
 bandera_juego = False
 
-datos_juego = {"puntuacion":0,"vidas":CANTIDAD_VIDAS,"nombre":"","tiempo":TIEMPO_RESTANTE,"indice":0,"preguntas_correctas":0,"tiempo_inicio":pygame.time.get_ticks(),"volumen_musica":1}
+datos_juego = {"puntuacion":0,"vidas":CANTIDAD_VIDAS,"nombre":"","tiempo":TIEMPO_RESTANTE,"indice":0,"preguntas_correctas":0,"tiempo_inicio":pygame.time.get_ticks(),"volumen_musica":0}
 
 while estado_juego:
 
@@ -38,7 +36,7 @@ while estado_juego:
             pygame.mixer.music.set_volume(datos_juego["volumen_musica"] / 100)
             pygame.mixer.music.play(-1)
             bandera_juego = True
-        print (bandera_juego)
+
         ventana_actual =  mostrar_juego(pantalla,cola_de_eventos,datos_juego)
     elif ventana_actual == "game over":
         if bandera_juego == True:
@@ -53,7 +51,7 @@ while estado_juego:
     elif ventana_actual == "salir":
         estado_juego = False
 
-    print(bandera_juego)
+    print(datos_juego["nombre"],datos_juego["vidas"])
     pygame.display.flip()
 pygame.quit()
 
