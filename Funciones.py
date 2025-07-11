@@ -156,12 +156,19 @@ def obtener_respuesta_click(botones_respuesta:list,pos_click:tuple) -> None | in
 
     return respuesta
 
-def verificar_respuesta(datos_juego:dict,pregunta:dict,respuesta:int) -> bool:
+def verificar_respuesta(datos_juego:dict,pregunta:dict,respuesta:int,pantalla,boton_rta) -> bool:
     if respuesta == pregunta["rta_correcta"]:
+
         datos_juego["puntuacion"] += PUNTOS_GANADOS
         datos_juego["preguntas_correctas"] += 1
         verificar_racha_preguntas(datos_juego)
         retorno = True
+    elif datos_juego["doble_chance"]:
+        activar_doble_chance(respuesta,pregunta,datos_juego,pantalla,boton_rta)
+
+        retorno = None
+    elif respuesta in datos_juego["rta_inhabilitadas"]:
+        retorno = None
     else:
         datos_juego["vidas"] -= 1
         if datos_juego["puntuacion"] > 0:
@@ -174,8 +181,25 @@ def verificar_respuesta(datos_juego:dict,pregunta:dict,respuesta:int) -> bool:
         
     return retorno
 
+def colorear_respuesta(pantalla,superficie, respuesta, color):
+    boton = superficie[respuesta - 1]
+    original = boton["superficie"].copy() 
+
+    #ombra semitransparente
+    sombra = pygame.Surface(original.get_size(), pygame.SRCALPHA)
+    sombra.fill((*color, 120))  
+
+    original.blit(sombra, (0, 0))
+
+    pantalla.blit(original, boton["rectangulo"])
+
+
+def generar_delay(tiempo):
+    pygame.display.flip() 
+    pygame.time.delay(tiempo)
+
 def verificar_racha_preguntas(datos_juego):
-    if  datos_juego["preguntas_correctas"] == 2:
+    if  datos_juego["preguntas_correctas"] == 5:
         datos_juego["vidas"] += 1
 
 
@@ -183,7 +207,11 @@ def reiniciar_estadisticas(datos_juego:dict) -> None:
     datos_juego["puntuacion"] = 0
     datos_juego["vidas"] = CANTIDAD_VIDAS
     datos_juego["nombre"] = ""
+    datos_juego["error_nombre"] = False
     datos_juego["preguntas_correctas"] = 0
+    datos_juego["popup_comodin"] = False
+    datos_juego["rta_inhabilitadas"] = []
+    datos_juego["comodines_usados"] = []
 
 
 def game_over(pantalla):
@@ -213,6 +241,7 @@ def guardar_ranking(datos_juego):
     with open("ranking.json", "w") as file:
         json.dump(lista_ranking, file)
 
+
 def leer_archivo_json(nombre_archivo:str)->list:
     with open(nombre_archivo, 'r') as archivo:
         datos = json.load(archivo)
@@ -237,3 +266,69 @@ def mostrar_top_10(lista_ranking:list,pantalla) -> str:
         mostrar_texto(pantalla,texto,(100,score_y),FUENTE_RELOJ,COLOR_BLANCO)
         score_y += 50
 
+def validar_cadena_alfa(cadena:str)->bool:
+    """
+    Comprueba si una cadena contiene solo letras y espacios.
+
+    Args:
+        cadena (str): la cadena de texto que se desea verificar.
+
+    Returns:
+        bool: True si la cadena no está vacía y todos sus caracteres son letras (A–Z, a–z) o espacios; False en caso contrario.
+    """
+    if len(cadena) > 0:
+        retorno = True
+        for i in range(len(cadena)):
+            valor_ascii = ord(cadena[i])
+            if (valor_ascii > 122 or valor_ascii < 97) and (valor_ascii > 90 or valor_ascii < 65) and (valor_ascii != 32):
+                retorno = False
+                break
+    else:
+        retorno = False 
+    
+    return retorno
+
+
+def desactivar_comodines(lista_comodines,comodin_elegido:int,pantalla):
+    indice = comodin_elegido - 1
+    for i in range(len(lista_comodines)):
+        if indice == i:
+            continue
+        colorear_respuesta(pantalla,lista_comodines,i+1,COLOR_NEGRO)
+
+def monstrar_comodines_no_usados(lista_comodines,pantalla,datos_juego):
+    comodines_usados = datos_juego["comodines_usados"]
+    for i in range(len(lista_comodines)):
+        if i+1 in comodines_usados:
+            colorear_respuesta(pantalla,lista_comodines,i+1,COLOR_NEGRO)
+    dibujar_elementos(lista_comodines,pantalla)
+
+def activar_bomba(pregunta_actual,pantalla,datos_juego,boton_rta):
+    indice_rta_correcta = pregunta_actual["rta_correcta"]
+    rtas_incorrectas = []
+
+    for i in range(1,4):
+        if i != indice_rta_correcta:
+            rtas_incorrectas.append(i)
+
+    random_rta = random.sample(rtas_incorrectas,2)
+    datos_juego["rta_inhabilitadas"] = random_rta
+    print( datos_juego["rta_inhabilitadas"] )
+
+    for i in random_rta:
+        colorear_respuesta(pantalla, boton_rta, i, COLOR_ROJO)
+
+
+def activar_x2(datos_juego):
+    if datos_juego["x2_activo"] :
+        datos_juego["puntuacion"] += PUNTOS_GANADOS
+        datos_juego["x2_activo"] = False
+    return
+
+def activar_doble_chance(respuesta,pregunta_actual,datos_juego,pantalla,boton_rta):
+    if respuesta != pregunta_actual["rta_correcta"]:
+        colorear_respuesta(pantalla, boton_rta, respuesta, COLOR_ROJO)
+        datos_juego["doble_chance"] = False
+
+def activar_pasar_pregunta(lista_preguntas,preguntas_jugadas,cuadro_pregunta,cuadros_rta,datos_juego):
+    datos_juego["indice"]  = cambiar_pregunta(lista_preguntas,preguntas_jugadas,cuadro_pregunta,cuadros_rta,datos_juego)

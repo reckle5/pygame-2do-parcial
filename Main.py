@@ -6,6 +6,7 @@ from Juego import *
 from Game_over import *
 from Rankings import *
 from Config import *
+from Agregar_preguntas import *
 
 pygame.init()
 pygame.mixer.init()
@@ -21,8 +22,32 @@ estado_juego = True
 ventana_actual= "menu" 
 bandera_juego = False
 
-datos_juego = {"puntuacion":0,"vidas":CANTIDAD_VIDAS,"nombre":"","tiempo":TIEMPO_RESTANTE,"indice":0,"preguntas_correctas":0,"tiempo_inicio":pygame.time.get_ticks(),"volumen_musica":0}
+datos_juego = {"puntuacion":0,
+               "vidas":CANTIDAD_VIDAS,
+               "nombre":"",
+               "error_nombre":False,
+               "tiempo":TIEMPO_RESTANTE,
+               "indice":0,
+               "preguntas_correctas":0,
+               "tiempo_inicio":pygame.time.get_ticks(),
+               "volumen_musica":0,
+               "popup_comodin":False,
+               "comodin":None,
+               "x2_activo":False,
+               "doble_chance":False,
+               "rta_inhabilitadas":[],
+               "comodines_usados": [],
+                }
 
+datos_preguntas_nueva = {"nueva_pregunta":"",
+                        "escribir_preg":False,
+                        "campo":None,
+                        "rta_1": "",
+                        "rta_2": "",
+                        "rta_3": "",
+                        "rta_4": "",
+                        "rta_correcta": "",
+                        "guardar_cambios":False}
 while estado_juego:
 
     reloj.tick(FPS)
@@ -42,16 +67,16 @@ while estado_juego:
         if bandera_juego == True:
             pygame.mixer.music.stop()
             bandera_juego = False
-
         ventana_actual = mostrar_game_over(pantalla,cola_de_eventos,datos_juego)
     elif ventana_actual == "ranking":
         ventana_actual = mostrar_ranking(pantalla,cola_de_eventos,datos_juego)
     elif ventana_actual == "ajustes":
         ventana_actual = mostrar_ajustes(pantalla,cola_de_eventos,datos_juego)
+    elif ventana_actual == "agregar preguntas":
+        ventana_actual = mostrar_agregar_preguntas(pantalla, cola_de_eventos, datos_preguntas_nueva,"preguntas.csv")
     elif ventana_actual == "salir":
         estado_juego = False
 
-    print(datos_juego["nombre"],datos_juego["vidas"])
     pygame.display.flip()
 pygame.quit()
 

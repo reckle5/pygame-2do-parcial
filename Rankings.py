@@ -5,9 +5,9 @@ from elementos_de_juego import *
 
 def mostrar_ranking(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event],datos_juego) -> str:
     retorno = "ranking"
-    #Gestionar Eventos
+    
     for evento in cola_eventos:
-        #Actualizaciones
+        
         if evento.type == pygame.QUIT:
             retorno = "salir"
         if evento.type == pygame.MOUSEBUTTONDOWN and evento.button == 1:

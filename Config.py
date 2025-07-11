@@ -32,10 +32,8 @@ def mostrar_ajustes(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event
     #Mostrar en pantalla los elementos
     pantalla.fill(COLOR_LILA)
     
-    pantalla.blit(boton_suma["superficie"],boton_suma["rectangulo"])
-    pantalla.blit(boton_resta["superficie"],boton_resta["rectangulo"])
-    pantalla.blit(boton_atras["superficie"],boton_atras["rectangulo"])
-    
+
+    dibujar_elementos([boton_atras,boton_resta,boton_suma],pantalla)
     dibujar_datos_juego("AJUSTES DE MUSICA",pantalla,(200,200),FUENTE_TEXTO,COLOR_NEGRO)
     dibujar_datos_juego(f"{datos_juego["volumen_musica"]}%",pantalla,(320,320),FUENTE_TEXTO,COLOR_NEGRO)
     dibujar_datos_juego("+",boton_suma["superficie"],(18,6),FUENTE_AJUSTE,COLOR_NEGRO)

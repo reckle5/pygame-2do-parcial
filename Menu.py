@@ -23,6 +23,8 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
                             retorno = "ranking"
                         elif i == 2:
                             retorno = "ajustes"
+                        elif i == 3:
+                            retorno = "agregar preguntas"
                         else:
                             print("salir")
                             retorno = "salir"
@@ -47,7 +49,10 @@ def mostrar_menu(pantalla:pygame.Surface,cola_eventos:list[pygame.event.Event]) 
     mostrar_texto(lista_botones[2]["superficie"],"AJUSTES",(60,10),FUENTE_MENU,COLOR_VIOLETA)
     mostrar_texto(lista_botones[2]["superficie"],"AJUSTES",(57,10),FUENTE_MENU,COLOR_LILA)
 
-    mostrar_texto(lista_botones[3]["superficie"],"SALIR",(80,10),FUENTE_MENU,COLOR_VIOLETA)
-    mostrar_texto(lista_botones[3]["superficie"],"SALIR",(77,10),FUENTE_MENU,COLOR_LILA)
+    mostrar_texto(lista_botones[3]["superficie"],"+ PREGUNTAS",(22,10),FUENTE_MENU,COLOR_VIOLETA)
+    mostrar_texto(lista_botones[3]["superficie"],"+ PREGUNTAS",(19,10),FUENTE_MENU,COLOR_LILA)
+
+    mostrar_texto(lista_botones[4]["superficie"],"SALIR",(80,10),FUENTE_MENU,COLOR_VIOLETA)
+    mostrar_texto(lista_botones[4]["superficie"],"SALIR",(77,10),FUENTE_MENU,COLOR_LILA)
 
     return retorno

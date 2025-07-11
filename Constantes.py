@@ -36,12 +36,16 @@ COLOR_AZUL = (0,0,255)
 COLOR_VIOLETA = (134,23,219)
 COLOR_LILA = (200, 162, 200)
 COLOR_VERDE_CLARO = (144, 238, 144)
+COLOR_ANARANJADO = (255, 218, 185)
+COLOR_GRIS = (155, 155, 148)
 
 #fuentes
 FUENTE_TEXTO = pygame.font.SysFont("CAMBRIA",28,True)
 FUENTE_TITULO = pygame.font.SysFont("Segoe UI Black",60,True)
 FUENTE_DATOS = pygame.font.SysFont("arial black",30,True)
 FUENTE_MENU = pygame.font.SysFont("Bahnschrift",30,True)
+FUENTE_COMODIN= pygame.font.SysFont("Bahnschrift",20,True)
+
 FUENTE_TITULO2 = pygame.font.SysFont("Segoe UI Black",59,True)
 FUENTE_AJUSTE = pygame.font.SysFont("CAMBRIA",40,True)
 
